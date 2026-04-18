@@ -3,7 +3,7 @@ import connectDB from "./config/db.js";
 import bcrypt from 'bcrypt';
 import User from "./models/User.js";
 
-const TemporaryPassword = "admin123";
+const TemporaryPassword = "ADMIN123";
 
 async function registerAdmin(){
       try {
