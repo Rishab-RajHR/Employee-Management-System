@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { data, Link, useLocation } from 'react-router-dom'
-import { dummyProfileData } from '../assets/assets'
+import { Link, useLocation } from 'react-router-dom'
 import { CalendarIcon, ChevronRightIcon, DollarSignIcon, FileTextIcon, LayoutGridIcon, Loader2, LogOutIcon, MenuIcon, SettingsIcon, UserIcon, XIcon } from 'lucide-react'
 import { useAuth } from '../context/AuthContext'
 import api from '../api/axios'
@@ -13,10 +12,11 @@ const Sidebar = () => {
     const {user, loading, logout} = useAuth()
 
     useEffect(() => {
+        if(!user) return
         api.get("/profile").then(({data})=>{
               if(data.firstName) setUserName(`${data.firstName} ${data.lastName || ""}`.trim());
         })
-    },[])
+    },[user])
 
     // Close mobile sidebar on route change
     useEffect(() => {
@@ -35,6 +35,7 @@ const Sidebar = () => {
     ]
 
     const handleLogout = ()=>{
+        logout()
         window.location.href = "/login"
     }
 
@@ -46,7 +47,7 @@ const Sidebar = () => {
                 <div className='flex items-center gap-3'>
                     <UserIcon className='text-white size-7'/>
                   <div>
-                     <p className='font-semibold text-[13px] text-white tracking-order'>Employee MS</p>
+                     <p className='font-semibold text-[13px] text-white tracking-normal'>Employee MS</p>
                     <p className='text-[11px] text-slate-500 font-medium'>Management System</p>
                   </div>
                 </div>
@@ -82,8 +83,9 @@ const Sidebar = () => {
           {/* Navigation List */}
           <div className='flex-1 px-3 space-y-0.5 overflow-y-auto'>
              {loading ? (
-                 <div>
+                 <div className='px-3 py-3 flex items-center gap-2 text-slate-500'>
                        <Loader2 className='animate-spin w-4 h-4'/>
+                       <span className='text-sm'>Loading...</span>
                  </div>
              ) : (
                  navItems.map((item)=>{

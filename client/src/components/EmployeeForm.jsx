@@ -2,13 +2,33 @@ import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { DEPARTMENTS } from '../assets/assets';
 import { Loader2Icon } from "lucide-react";
+import api from '../api/axios';
+import toast from 'react-hot-toast';
 
 const EmployeeForm = ({initialData, onSuccess, onCancel}) => {
    const navigate = useNavigate();
    const [loading, setLoading] = useState(false)
    const isEditMode = !!initialData;
+
    const handleSubmit = async (e)=>{
        e.preventDefault()
+       setLoading(true)
+       const formData = new FormData(e.currentTarget);
+       if(isEditMode){
+           const pwd = formData.get("password")
+           if(!pwd) formData.delete("password")
+       }
+
+        try {
+           const url = isEditMode ? `/employees/${initialData.id}` : "/employees";
+           const method = isEditMode ? "put" : "post";
+            await api[method](url, formData)
+            onSuccess ? onSuccess() : navigate("/employees")
+        } catch (error) {
+             toast.error(error.response?.data?.error || error.message);
+        } finally {
+            setLoading(false);
+        }
    }
 
 
@@ -48,7 +68,7 @@ const EmployeeForm = ({initialData, onSuccess, onCancel}) => {
           <div className='grid grid-cols-1 sm:grid-cols-2 gap-5 text-sm text-slate-700'>
               <div>
                   <label className='block mb-2'>Department</label>
-                  <select name='depatment' defaultValue={initialData?.department || ""}>
+                  <select name='department' defaultValue={initialData?.department || ""}>
                       <option value="">Select Department</option>
                       {DEPARTMENTS.map((deptName)=>(
                          <option key={deptName} value={deptName}>
