@@ -10,6 +10,7 @@ const CheckInButton = ({todayRecord, onAction}) => {
        setLoading(true)
        try {
           await api.post("/attendance")
+          onAction() 
        } catch (error) {
            toast.error(error?.response?.data?.error || error?.message);
        }
@@ -18,7 +19,7 @@ const CheckInButton = ({todayRecord, onAction}) => {
 
    if(todayRecord?.checkOut){
       return (
-         <div className='flex flex-col items-center justify-center p-8 bg-slate-50 rounded-2xl border-slate-200'>
+         <div className='flex flex-col items-center justify-center p-8 bg-slate-50 rounded-2xl border border-slate-200'>
             <h3 className='text-lg font-bold text-slate-900'>Work Day Completed</h3>
             <p className='text-slate-500 text-sm mt-1'>Great job! See you tomorrow</p>
          </div>

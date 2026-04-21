@@ -39,7 +39,7 @@ const ApplyLeaveModal = ({open, onClose, onSuccess}) => {
                       <h2 className='text-lg font-semibold text-slate-800'>Apply for Leave</h2>
                       <p className='text-sm text-slate-400 mt-0.5'>Submit your leave request for approval</p>
                   </div>
-                  <button onClick={onClose} className='p-2 rounded-lg hoverr:bg-slate-100 transition-colors text-slate-400 hover:text-slate-600'>
+                  <button onClick={onClose} className='p-2 rounded-lg hover:bg-slate-100 transition-colors text-slate-400 hover:text-slate-600'>
                       <X className='w-5 h-5'/>
                   </button>
               </div>
@@ -93,7 +93,7 @@ const ApplyLeaveModal = ({open, onClose, onSuccess}) => {
                       </button>
 
                       <button 
-                      disabled={loading} type='button' className='btn-primary flex-1 flex items-center justify-center gap-2'>
+                      disabled={loading} type='submit' className='btn-primary flex-1 flex items-center justify-center gap-2'>
                           {loading ? <Loader2 className='w-4 h-4 animate-spin'/> : <Send className='w-4 h-4'/>}
                           {loading ? "Submitting..." : "Submit"}
                       </button>
